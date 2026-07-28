@@ -3,6 +3,10 @@ const assert = require('node:assert');
 const http = require('node:http');
 const { server } = require('../server.js');
 
+function closeServer() {
+  return new Promise((resolve) => server.close(resolve));
+}
+
 test('GET / responde 200 con un mensaje y una version', async () => {
   await new Promise((resolve) => server.listen(0, resolve));
   const { port } = server.address();
@@ -23,7 +27,7 @@ test('GET / responde 200 con un mensaje y una version', async () => {
   assert.ok(parsed.message, 'la respuesta debe incluir un mensaje');
   assert.ok(parsed.version, 'la respuesta debe incluir una version');
 
-  server.close();
+  await closeServer();
 });
 
 test('una ruta inexistente responde 404', async () => {
@@ -41,5 +45,5 @@ test('una ruta inexistente responde 404', async () => {
 
   assert.strictEqual(response.status, 404);
 
-  server.close();
+  await closeServer();
 });

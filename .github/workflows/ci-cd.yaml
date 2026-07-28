@@ -1,47 +1,14 @@
-# name: ci-cd
-# on:
-#   push:
-#     branches: [main]
-# jobs:
-#   build-test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v4
-#       - run: npm ci
-#       - run: npm test
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v4
-#       - id: vars
-#         run: echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
-#       - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-#       - run: docker build -f dockerfile -t ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }} .
-#       - run: docker push ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }}
-
-
-
 name: ci-cd
-
 on:
   push:
     branches: [main]
-
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - run: npm ci
       - run: npm test
-
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -51,3 +18,36 @@ jobs:
       - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
       - run: docker build -f dockerfile -t ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }} .
       - run: docker push ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }}
+
+
+
+# name: ci-cd
+
+# on:
+#   push:
+#     branches: [main]
+
+# permissions:
+#   contents: read
+#   packages: write
+
+# jobs:
+#   build-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#       - run: npm ci
+#       - run: npm test
+
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - id: vars
+#         run: echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+#       - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+#       - run: docker build -f dockerfile -t ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }} .
+#       - run: docker push ghcr.io/${{ steps.vars.outputs.owner_lc }}/app-ejemplo-evaluacion:${{ github.sha }}

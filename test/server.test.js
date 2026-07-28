@@ -23,11 +23,14 @@ test('GET / responde 200 con un mensaje y una version', async () => {
 
   const parsed = JSON.parse(response.data);
 
-  assert.strictEqual(response.status, 200);
-  assert.ok(parsed.message, 'la respuesta debe incluir un mensaje');
-  assert.ok(parsed.version, 'la respuesta debe incluir una version');
-
-  await closeServer();
+  // Envolvemos las aserciones para garantizar que el servidor se cierre
+  try {
+    assert.strictEqual(response.status, 200);
+    assert.ok(parsed.message, 'la respuesta debe incluir un mensaje');
+    assert.ok(parsed.version, 'la respuesta debe incluir una version');
+  } finally {
+    await closeServer(); // ¡Esto se ejecutará siempre, falle o no el test!
+  }
 });
 
 test('una ruta inexistente responde 404', async () => {

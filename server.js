@@ -5,7 +5,7 @@ const APP_VERSION = '1.0.0';
 
 function requestHandler(req, res) {
   if (req.url === '/' || req.url === '/health') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
         message: 'Hola desde la aplicación de ejemplo de la evaluación práctica',

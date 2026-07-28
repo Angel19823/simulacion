@@ -6,7 +6,7 @@ Aplicación mínima y neutral, provista únicamente para esta evaluación. No pe
 
 Un servidor HTTP simple, sin dependencias externas, que expone:
 
-- `GET /` — responde `200` con un mensaje, el nombre y la versión de la aplicación, en JSON.
+- `GET /` — responde `` con un mensaje, el nombre y la versión de la aplicación, en JSON.
 - `GET /health` — responde igual que `/`, útil como endpoint de verificación de salud.
 - Cualquier otra ruta — responde `404`.
 
